@@ -1,0 +1,1135 @@
+<html>
+
+
+
+
+
+
+
+    <head>
+
+
+
+
+
+
+
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+
+
+
+
+
+
+
+        <link rel="stylesheet" href="jquery/jquery.mobile-1.1.0.min.css" />
+
+
+
+
+
+
+
+        <link rel="stylesheet" href="theme.css" />
+
+
+
+
+
+
+
+        <script src="cordova-2.0.0.js"></script>
+
+
+
+
+
+
+
+		<script type="text/javascript" src="phonegap.js"></script>
+
+
+
+
+
+
+
+        <script src="jquery-1.6.4.min.js"></script>
+
+
+
+
+
+
+
+        <script src="jquery/jquery.mobile-1.1.0.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <script type="text/javascript" charset="utf-8" src="childbrowser.js"></script>
+
+
+
+
+
+
+
+        <script type="text/javascript">
+
+
+
+
+
+
+
+	                        
+
+
+
+
+
+
+
+            $(document).ready(function() {
+
+
+
+
+
+
+
+                document.addEventListener("deviceready",onDeviceReadyChildBrowser,false);
+
+
+
+
+
+
+
+            });
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+            function onDeviceReadyChildBrowser() {
+
+
+
+
+
+
+
+                $(document).ready(function() {
+
+
+
+
+
+
+
+                    $("a.open-child-browser").click(function() {
+
+
+
+
+
+
+
+                        var goUrl = $(this).attr("data-gourl");
+
+
+
+
+
+
+
+                        window.plugins.childBrowser.showWebPage(goUrl, { showLocationBar: true });
+
+
+
+
+
+
+
+                        return false;
+
+
+
+
+
+
+
+                    });
+
+
+
+
+
+
+
+                        
+
+
+
+
+
+
+
+                    $("a.open-external-browser").click(function() {
+
+
+
+
+
+
+
+                        var goUrl = $(this).attr("data-gourl");
+
+
+
+
+
+
+
+                        window.plugins.childBrowser.openExternal(goUrl);
+
+
+
+
+
+
+
+                        return false;
+
+
+
+
+
+
+
+                    });
+
+
+
+
+
+
+
+                });
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+                        
+
+
+
+
+
+
+
+        </script>
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+        <script type="text/javascript" src="PushNotification.js"></script>
+
+<script type="text/javascript">
+
+    var pushNotification;
+
+    var app_id = "38";
+
+    var message;
+
+            
+
+    function onDeviceReady() {
+
+                
+
+        pushNotification = window.plugins.pushNotification;
+
+				
+
+        if (device.platform == 'android' || device.platform == 'Android') {
+
+            pushNotification.register(successHandler, errorHandler, {"senderID":"804214045278","ecb":"onNotificationGCM"});
+
+        } else {
+
+            pushNotification.register(tokenHandler, errorHandler, {"badge":"true","sound":"true","alert":"true","ecb":"onNotificationAPN"});
+
+        }
+
+    }
+
+            
+
+    /* handle APNS notifications for iOS*/
+
+    function onNotificationAPN(event) {
+
+        if (event.alert) {
+
+            navigator.notification.alert(event.alert);
+
+        }
+
+                
+
+        if (event.sound) {
+
+            var snd = new Media(event.sound);
+
+            snd.play();
+
+        }
+
+                
+
+        if (event.badge) {
+
+            pushNotification.setApplicationIconBadgeNumber(successHandler, event.badge);
+
+        }
+
+    }
+
+            
+
+            
+
+    function onNotificationGCM(e) {
+
+        if(e.event == 'message'){
+
+            if(e.payload.app_id == app_id)
+
+                alert(e.message);
+
+        }
+
+    }
+
+            
+
+    function tokenHandler (result) {
+
+        /*$("#app-status-ul").append('<li>token: '+ result +'</li>');*/
+
+        /* Your iOS push server needs to know the token before it can push to this device*/
+
+        /* here is where you might want to send it the token for later use.*/
+
+    }
+
+			
+
+    function successHandler (result) {
+
+        /*$("#app-status-ul").append('<li>success:'+ result +'</li>');*/
+
+    }
+
+            
+
+    function errorHandler (error) {
+
+        /*alert("function_errorHandler");*/
+
+        /*$("#app-status-ul").append('<li>error:'+ error +'</li>');*/
+
+    }
+
+            
+
+    document.addEventListener('deviceready', onDeviceReady, true);
+
+
+
+</script>
+
+
+
+    </head>
+
+
+
+
+
+
+
+    <body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div data-role="page" data-add-back-btn="true">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div data-role="header">
+
+
+
+
+
+
+
+                <div class="ui-bar ui-bar-a"><center><h1>Basics</h1></center>
+
+
+
+                </div>
+
+
+
+
+
+
+
+            </div>
+
+
+
+            <a id="homeButton" href="index.html" rel="external" ><img src="./home.png" alt="Home" /></a>
+
+
+
+            <style type="text/css"> 
+
+
+
+                #homeButton{position: relative;top: -28px;left: 5px;width: 75px;height: 18px;display: block;text-align: center;}
+
+
+
+                #homeButton:active{ opacity: 0.7; } 
+
+
+
+            </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div data-role="content">
+
+
+
+
+
+
+
+                
+
+
+
+
+
+                <style type="text/css">
+
+                    .content_navigation_content div,.content_navigation_content p,.content_navigation_content ul,.content_navigation_content h2,.content_navigation_content h3,.content_navigation_content h4,.content_navigation_content img{
+
+                        padding:0px; 
+
+                        margin:0px;
+
+                    }
+
+                    .content_navigation_link h3 a{
+
+                        text-decoration:none;
+
+                    }
+
+                    .content_navigation_link{
+
+                        width: 100%;
+
+                        text-align: center;
+
+                        line-height: 50px;
+
+                        display: block;
+
+                        height: 50px;
+
+                        border-bottom: 1px solid white;
+
+                    }
+
+                    #content_navigation_content{
+
+                        /*                        overflow: hidden;
+
+                                                width: 200px;*/
+
+                        background: grey;
+
+                        margin: 0 auto;
+
+                        border-radius: 10px;
+
+                        /*                        position: fixed;
+
+                                                left: 50%;
+
+                                                top: 40px;*/
+
+                        /*margin-left: -100px;*/
+
+                        border-radius: 10px; 
+
+                        box-shadow: 8px 8px 8px silver;
+
+                    }
+
+                    .content_navigation_link a{
+
+                        color:white !important;
+
+                        display:block;
+
+                    }
+
+                    .content_navigation_link:hover, .content_navigation_link:active{
+
+                        background: #27a1c5;
+
+                        cursor:pointer;
+
+                    }
+
+                    .active{
+
+                        background: #27a1c5;
+
+                        cursor:pointer;
+
+                    }
+
+                    .content_block{
+
+                        word-wrap: break-word;
+
+                        display: none;
+
+                    }
+
+                    #navigationContent{
+
+                        /*position: relative;*/
+
+                    }
+
+                    .content_navigation_link:first-child{
+
+                        border-radius: 10px 10px 0px 0px; 
+
+                    }
+
+                    .content_navigation_link:last-child{
+
+                        border-radius: 0px 0px 10px 10px; 
+
+                    }
+
+                    .content_navigation_link .active{
+
+                        background: none;
+
+                    }
+
+                    #backMenu{
+
+                        position: fixed;
+
+                        bottom: 75px;
+
+                        right: 10px; 
+
+                        opacity: 0.5;
+
+                        display: none;
+
+                    }
+
+                    #backMenu:hover,#backMenu:active{
+
+                        opacity: 1;
+
+                        cursor: pointer;
+
+                    }
+
+                </style>
+
+                <div id="navigationContent">
+
+                    <div id="content_navigation_content" class="content_navigation_content">
+
+                        <div class="content_navigation_link">
+
+                            <h3><a href="#article1" class="ui-link">The Basic Styles, Part I</a></h3>
+
+                        </div>
+
+                        <div class="content_navigation_link">
+
+                            <h3><a href="#article2" class="ui-link">The Basic Styles, Part II</a></h3>
+
+                        </div>
+
+                        <div class="content_navigation_link">
+
+                            <h3><a href="#article3" class="ui-link">The Basic Styles, Part III</a></h3>
+
+                        </div>
+
+                        <div class="content_navigation_link">
+
+                            <h3><a href="#article4" class="ui-link">The Basics: Soil, Part I</a></h3>
+
+                        </div>
+
+                        <div class="content_navigation_link">
+
+                            <h3><a href="#article5" class="ui-link">The Basics: Soil, Part II</a></h3>
+
+                        </div>
+
+                    </div>
+
+                    <div id="content_blocks">
+
+                        <div class="content_block" id="article1"><p><img alt="" src="http://farm4.staticflickr.com/3461/3759316522_66db1c8ea2_z.jpg?zz=1" style="width: 300px; height: 200px; "></p>
+
+
+
+<p>Over the centuries the artists of bonsai have developed hundreds of unique styles. But within this complexity there are a few that form the basis of most of the variations.</p>
+
+
+
+<p><strong>Chokkan (Formal Upright)</strong></p>
+
+
+
+<p>The simplest, but still exquisitely beautiful, is the chokkan or formal upright. Though still a miniature, this style most resembles the full grown tree. The form is erect and partly symmetrical, roughly classic Christmas-tree shaped, but sometimes with a rounded crown.</p>
+
+
+
+<p>Branches are approximately horizontal and the lowest pair are frequently trained to point toward the viewer, with a third pointing away at a level between the two in front.</p>
+
+
+
+<p>Though the chokkan is more regular than other styles, it need not be planted directly in the center of the pot. Visual variety can be achieved by planting a third from one end, either left or right as you face the tree.</p>
+
+
+
+<p>Smaller branches nearer the base should be trimmed off, and others should be balanced around the trunk. The first branch starts at about one-third up the total height of the trunk.</p>
+
+
+
+<p>Remember that to achieve the right result, you must have a good beginning. That starts with selection of the proper species. A tree that, left unmodified, would naturally grow straight is the best choice.</p>
+
+
+
+<p>One of the less difficult styles to achieve - no bonsai is easy to train - it nevertheless can exhibit significant variations. Using different species, such as Larch, or Pine, or Spruce can result in distinct looks.</p>
+
+
+
+<p><strong>Moyogi (Informal Upright)</strong></p>
+
+
+
+<p>The moyogi shares many similarities with the chokkan, but vertical and horizontal regularity is altered. The moyogi is less even in appearance, but to the bonsai enthusiast no less beautiful than its more symmetrical brother.</p>
+
+
+
+<p>Branches are trained in the same manner, but the top is modified to bend slightly toward the viewer. The trunk may also be slanted, but not curved, slightly.</p>
+
+
+
+<p>Slanting can be achieved by training, or by selecting a type with a natural tendency to veer from the vertical. Check similar instances of a species from the top looking down to detect deviations from the vertical.</p>
+
+
+
+<p>To achieve a slant that tilts away from the viewer, plant or train in the pot so that the roots move forward, to the front of the pot. This can be encouraged by wiring and selective watering that favors the front of the container. As the trunk slants backward the roots will point ahead naturally as the tree attempts to maximize its support.</p>
+
+
+
+<p>Moyogi, like the chokkan, generally have full crowns with branches that start about one-third up the trunk. Deciduous species, such as the Japanese Maple, or beeches, are naturally well-suited to this style. Some fruit trees, such as Pomegranate or Crab Apple, may also serve the purpose.</p>
+
+
+
+<p>All bonsai, regardless of style, require much patience and care over many years in order to achieve health and longevity. But these two styles are the least difficult to attain and may serve as a good beginning for the novice.</p>
+
+</div>
+
+                        <div class="content_block" id="article2"><p><img alt="" src="http://www.mybonsaibuddy.com/599px-California_Juniper_bonsai_220,_October_10,_2008.jpg" style="width: 300px; height: 200px; "></p>
+
+
+
+<p><strong>Shakan (Slanting)</strong></p>
+
+
+
+<p>Japanese bonsai artists have developed many intricate and detailed forms of bonsai, in which each element is positioned just so. This is evident in the shakan, or slanting, style.</p>
+
+
+
+<p>As the name suggests, the trunk is slanted, usually at a moderately steep angle, mid-way between an upright and a cascade style. The slant will be anywhere from 30 degrees to as much as 75 degrees.&nbsp;</p>
+
+
+
+<p>The lowest branch is made to point away from the direction of the trunk, lending a visual balance important to the bonsai artist.</p>
+
+
+
+<p>Full-sized trees in nature acquire these characteristics as the result of early development in an environment where wind has a tendency to blow more in one direction than another. Another key factor is the amount of shade present above the young tree.&nbsp;</p>
+
+
+
+<p>Contributing to the effect is gravity acting on a trunk weaker in one direction than another. The shape of the ground holding the tree and the location and amount of water also influence the outcome, though to a lesser degree.</p>
+
+
+
+<p>All these factors can be emulated by the bonsai artist.</p>
+
+
+
+<p>As with any bonsai training, it's best to start with a species or instance that is amenable to the style. Luckily for the bonsai artist, many trees will experience a natural slant to some degree. Bringing this out to a more pronounced state is simply a matter of training and patience.</p>
+
+
+
+<p>The trunk, though slanted will be straight rather than curved. Of course, as with all bonsai artistry, within this apparently rigid classification there is much variation. Bonsai, though a disciplined art always finds room for the artist's individual interpretation.</p>
+
+
+
+<p>Even so, care should be taken to keep the result in balance. Longer branches should be distributed away from the slant, shorter branches in the same direction. Longer roots should be encouraged away from the slant, again for balance.</p>
+
+
+
+<p>Within the style there are several sub-types, such as dai-shakan and chu-shakan. Each sub-type refers to the direction in which the branches are trained relative to the angle of the trunk. In the chu-shakan style, for example, the branch is trained back toward the trunk. Dai-shakan, by contrast, spreads the branches away from the trunk.</p>
+
+
+
+<p>Conifers, such as White Pine, make good 'modeling clay' for this style. In order to display them to best advantage, they should be planted in the center of a rectangular pot.</p>
+
+</div>
+
+                        <div class="content_block" id="article3"><p><strong><img alt="" src="http://www.mybonsaibuddy.com/800px-Bonsai_IMG_6402.jpg" style="width: 300px; height: 225px; "></strong></p>
+
+
+
+<p>The cascade style is among the more beautiful and desired, but also more difficult to achieve. The trunk grows down below the level of the container, often twisting as it does so.</p>
+
+
+
+<p>In nature, a tree growing near a cliff subject to heavy snows, avalanches and wind may assume this inverted position. Those forces are not generally available to the bonsai artist to imitate, however. Nevertheless, with wiring and patience it can be accomplished.</p>
+
+
+
+<p>To remove obstacles from growth in this direction, it's important that the tree and pot be placed near the edge of a table or bench so the trunk can hang below the horizontal. Also, since the trunk will be on the side and below, it's important to use a heavy pot for stability.</p>
+
+
+
+<p>As the trunk is encouraged to grow in the downward U-shape, branches should be trained to sprout horizontally to give the tree a full appearance. Planting directly in the center, not near the edge of the pot, is standard practice.</p>
+
+
+
+<p>Often the tree will be trained to grow up and over, rather than simply over the edge. This gives a flow to the look and is accompanied by a tip that resides directly above the center. Branches should be trimmed to create a 'stair-step' pattern to complement the cascade and give it a 'meandering river' look.</p>
+
+
+
+<p>Since the trunk and several branches will reside below the pot, extra care is required to ensure that all receive adequate water and nutrients. Foliar feeding (applying fertilizer solution by spraying leaves or needles, which is then absorbed by the foliage) is recommended.</p>
+
+
+
+<p><strong>Han-Kengai (Semi-cascade)</strong></p>
+
+
+
+<p>Another style, han-kengai (semi-cascade) is often categorized separately. In this case, the cascade projects over the horizontal plane at the base of the pot, but neither the trunk nor branches grow below that level. In the semi-cascade style, the tip remains above the level of the 'ground'.</p>
+
+
+
+<p>The category is not sharply defined, since some han-kengai will have portions that are below 'ground level', while others will project out horizontally. In either case they retain the curving trunk style common to both the kengai and han-kengai styles.</p>
+
+
+
+<p>As with any style, using the proper species for your envisioned design is imperative. Fortunately in the case of the kengai and han-kengai, many will serve. Junipers are a popular choice, but flowering cherry trees are also used. Even cedars are used, where the flexible wood makes them an accommodating partner in the project. Some flowering species are used, such as chrysanthemums. 'Weeping' species are also good choices, such as willows.</p>
+
+
+
+<p>As with the kengai, it's important to ensure that the slow-moving nutrients make it to the tips. Foliar feeding is easily accomplished but needs to be done regularly as part of the watering and feeding practice.</p>
+
+</div>
+
+                        <div class="content_block" id="article4"><p>First, a little ultra-simple plant biology. Plants maintain themselves and grow by taking in and processing nutrients, just as animals do. But the obvious difference is that (with few exceptions) plants can't go get them, it has to come to them. One major portion of their needs is met when they absorb sunlight and take oxygen from the air. The rest must come from the soil.</p>
+
+
+
+<p>Ready made soil mixtures are available from gardening sections at nurseries, in hardware stores, Wal-Mart and elsewhere. But just like convenience foods they're more expensive and it can be difficult to tell exactly how much of each component they contain. For absolute beginners they're a good temporary choice, though.</p>
+
+
+
+<p>Sooner or later, the avid Bonsai enthusiast is going to want to mix his or her own soil. And, since bonsai are confined to a small pot most of the year, year in and year out, that soil will need to be supplemented and occasionally replaced. Make sure yours has the following attributes.</p>
+
+
+
+<p>As with so many things about bonsai, apparently contradictory elements must be carefully balanced to maximize the health of the tree and create the desired appearance.</p>
+
+
+
+<p>Though a normal, not a dwarf, species, the tree must be pruned to be kept small. Though growing toward the light, as most plants do, it must be wired and shaped to create the desired appearance. But nowhere do these competing elements need to be so precisely balanced as in the preparation of the soil.</p>
+
+
+
+<p>Bonsai soil must be able to retain water well, since excessive drying is the easiest, and most common, way to kill a bonsai tree. Many so-called 'mallsai', bonsai bought at a store in the local mall, are nearly dead by the time they're purchased since they don't receive the proper amount of water and care.</p>
+
+
+
+<p>Water is essential to life in itself, but it also acts as a vehicle to deliver nutrients through the roots. Humus, the organic components of soil that remain after decomposition of organisms, along with clay are the two major factors that help retain water and nutrients.</p>
+
+
+
+<p>But the soil can't be allowed to retain water too well. It has to provide good drainage. When too much moisture remains in the pot, whether through excess watering or compacted soil, root rot is almost inevitable.</p>
+
+
+
+<p>Proper drainage is achieved, in part, by infusing the soil with small pieces of gravel. That helps create small spaces in the earth through which water can readily travel. Water then drains through the dirt, into the base and out the hole found in all bonsai pots.</p>
+
+
+
+<p>Examine a commercially packaged quantity of bonsai soil and you'll often see small white chunks. Those 'aggregates' as they're called, help provide the soil with the correct amount of drainage.</p>
+
+
+
+<p>In addition to allowing water to pass through, and not pool around the base to rot the roots, good draining soil allows for the easy passage of vital gases both in and out of the mixture.</p>
+
+
+
+<p>Carbon dioxide, oxygen and nitrogen need to pass in and out of the plant and soil in order for photosynthesis and other essential biochemical processes to proceed properly.</p>
+
+
+
+<p>Good soil will have all those health supporting physical characteristics.</p>
+
+</div>
+
+                        <div class="content_block" id="article5"><p>Beyond the need for good water retention and good drainage, soils have to supply all the nutrients trees can't get from the air or produce internally using sunlight for energy. Also, how much water retention is needed and specifically what kind and amount of nutrients will vary somewhat from species to species.</p>
+
+
+
+<p>Pines and Junipers require, indeed can tolerate, much less water than other species. Flowering and fruiting species - Bougainvillea, citrus, apple and others - require much more water than average. Not only do they have to feed trunk, branch and leaf systems, but fruits and flowers take in more water and aspirate moisture much more quickly.</p>
+
+
+
+<p>Soil is a mixture of inorganic and organic material. Inorganic elements and compounds, such as clay, granite, ash and others help regulate drainage and supply nutrients.</p>
+
+
+
+<p>Clay is an excellent water retainer, as is obvious from the existence of clay pots. It performs a similar service, to a smaller degree, when small pieces are embedded throughout the soil. Ash or ground volcanic rock, helps not only regulate water but supplies some of the needed nitrogen as well.</p>
+
+
+
+<p>Organic components are made up of decomposed plant and animal matter, which provide nitrogen, phosphates and a host of other vital nutrients.</p>
+
+
+
+<p>Mixing these two basic types together in the correct ratio creates the soil appropriate for a given species and climate. By adding relatively more grit, for example, easy drainage is increased. In the absence of more specific guidelines, a 50:50 mixture of grit and peat is a good starting point.</p>
+
+
+
+<p>Grit, usually crushed granite or flint, provides good drainage while peat, typically moss peat, provides a spongy earth, making for good aeration and supplying needed nutrients. Leaf mold or composted bark is sometimes a suitable substitute for peat moss.</p>
+
+
+
+<p>Proportions will vary depending on species. Pine and Juniper, as noted, should have more inorganic material to provide less water retention. Often the proportions change to as much as 75:25. Provided the base of the pot contains a layer of gravel to keep the screened hole from being plugged, the exact ratio isn't critical.</p>
+
+
+
+<p>Akadama, a white Japanese clay, is the most commonly used fine-quality inorganic material used by expert bonsai artists in Japan. But it can be difficult to obtain in the US and UK. Seramis is often used as a substitute. This more standard, orange-colored, clay is a good alternative. It has the added advantage that its color changes slightly as the moisture content varies, giving a good visual indicator of drying.</p>
+
+
+
+<p>When preparing soil, keep in mind that all the elements of proper bonsai care are interrelated. Proper soil mixtures vary with watering regiment and are dependent on local climate, air pollution content and several other factors. Consider your individual circumstances carefully.</p>
+
+
+
+<p>If you intend to put forth the time, expense and effort to grow bonsai - which require more care than ordinary plants - soil is the last place you want to skimp on money or preparation. Soil quality is often a literal life or death alternative for your bonsai.</p>
+
+</div>
+
+                    </div>
+
+                    <img id="backMenu" src="./backMenu.png">
+
+                </div>
+
+                
+
+            <script type="text/javascript" >
+
+                    $(document).ready(function() {
+
+
+
+//                        $(document).click(function ( e ) {
+
+//                            if ($(e.target).parents().filter('#content_navigation_content').length < 1 && $(e.target).attr('id') != 'content_navigation_content' && $(e.target).attr('id') != 'backMenu') {
+
+//                                $('#content_navigation_content').fadeOut(500);
+
+//                                $('#backMenu').fadeIn(500);
+
+//                            }
+
+//                        });
+
+//                        
+
+
+
+
+
+                        var articleNumber;
+
+
+
+
+
+                        $('.backClick').click(function() {
+
+                            $('#content_navigation_content').show();
+
+                            $('#article' + articleNumber).hide();
+
+                        });
+
+
+
+
+
+
+
+
+
+                        $('.content_navigation_link h3 a').click(function() {
+
+
+
+                            $('#content_navigation_content').hide();
+
+                            articleNumber = $(this).attr('href').substr(-1);
+
+                            $('.content_navigation_link').removeClass('active');
+
+                            $(this).parent().parent().addClass('active');
+
+                            $('#article' + articleNumber).show();
+
+
+
+
+
+
+
+
+
+//                            articleNumber = $(this).attr('href').substr(-1);
+
+//                            $('.content_navigation_link').removeClass('active');
+
+//                            $(this).parent().parent().addClass('active');
+
+//                            $('.content_block').slideUp(500);
+
+//                            setTimeout(function() {
+
+//                                $('#content_navigation_content').fadeOut(500);
+
+//                                $('#backMenu').fadeIn(500);
+
+//                                $('#article'+articleNumber).slideDown(500);
+
+//                            }, 500);
+
+
+
+                        });
+
+
+
+
+
+
+
+//                        $('#backMenu').click(function(){
+
+//                            $('#content_navigation_content').fadeIn(500);
+
+//                            $('#backMenu').fadeOut(500);
+
+//                        });
+
+
+
+                    });
+
+                </script>
+
+
+
+
+
+
+
+            </div><!-- /content -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <style> .nav-glyphish-example .ui-btn .ui-btn-inner { padding-top: 40px !important; width: 60px!important;}		.nav-glyphish-example .ui-btn .ui-icon { width: 30px!important; height: 30px!important; margin-left: -15px !important; box-shadow: none!important; -moz-box-shadow: none!important; -webkit-box-shadow: none!important; -webkit-border-radius: 0 !important; border-radius: 0 !important; }#tab1 .ui-icon { background:  url("icons_tech_1579.png") 50% 50% no-repeat; background-size: 50px 50px; }#tab2 .ui-icon { background:  url("icons_communication_1092.png") 50% 50% no-repeat; background-size: 50px 50px; }  a[href="notification.html"] .ui-icon { background:  url("icon(18).png") 50% 50% no-repeat !important;background-size: 30px 30px !important; }   a[href="optin_form.html"] .ui-icon { background:  url("icon(6).png") 50% 50% no-repeat !important;background-size: 30px 30px !important; }   a[href="content3.html"] .ui-icon { background:  url("icon(15).png") 50% 50% no-repeat !important;background-size: 30px 30px !important; }   a[href="content2.html"] .ui-icon { background:  url("icon(15).png") 50% 50% no-repeat !important;background-size: 30px 30px !important; }   a[href="content.html"] .ui-icon { background:  url("icon(15).png") 50% 50% no-repeat !important;background-size: 30px 30px !important; } #tab3 .ui-icon { background:  url("64Px_-_504-11.png") 50% 50% no-repeat; background-size: 30px 30px; }#tab4 .ui-icon { background:  url("64Px_-_504-210.png") 50% 50% no-repeat; background-size: 30px 30px; }#tab5 .ui-icon { background:  url("more.png") 50% 50% no-repeat; background-size: 30px 30px; } .ui-content{ word-wrap: break-word; } </style>
+
+
+
+
+
+
+
+            <div data-role="footer" data-position="fixed" class="nav-glyphish-example" data-id="myfooter" data-theme="a" data-tap-toggle="false"><div data-role="navbar" class="nav-glyphish-example"><ul><li><a href="content.html" id="tab2" data-icon="custom" rel="external"  data-gourl="content.html" class="" onclick="window.plugins.childbrowser.openExternal('content.html')">Basics</a></li><li><a href="content2.html" id="tab2" data-icon="custom" rel="external"  data-gourl="content2.html" class="" onclick="window.plugins.childbrowser.openExternal('content2.html')">Choices</a></li><li><a href="content3.html" id="tab2" data-icon="custom" rel="external"  data-gourl="content3.html" class="" onclick="window.plugins.childbrowser.openExternal('content3.html')">Growing</a></li><li><a href="optin_form.html" id="tab2" data-icon="custom" rel="external"  data-gourl="optin_form.html" class="" onclick="window.plugins.childbrowser.openExternal('optin_form.html')">Bonsai Club</a></li><li><a href="more.html" id="tab5" data-icon="custom" rel="external">More</a></li></ul></div></div>
+
+
+
+
+
+
+
+        </div>	
+
+
+
+
+
+
+
+    </body>
+
+
+
+
+
+
+
+</html>

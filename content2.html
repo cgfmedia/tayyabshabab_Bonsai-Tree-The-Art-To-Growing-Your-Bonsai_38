@@ -1,0 +1,1123 @@
+<html>
+
+
+
+
+
+
+
+    <head>
+
+
+
+
+
+
+
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+
+
+
+
+
+
+
+        <link rel="stylesheet" href="jquery/jquery.mobile-1.1.0.min.css" />
+
+
+
+
+
+
+
+        <link rel="stylesheet" href="theme.css" />
+
+
+
+
+
+
+
+        <script src="cordova-2.0.0.js"></script>
+
+
+
+
+
+
+
+		<script type="text/javascript" src="phonegap.js"></script>
+
+
+
+
+
+
+
+        <script src="jquery-1.6.4.min.js"></script>
+
+
+
+
+
+
+
+        <script src="jquery/jquery.mobile-1.1.0.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <script type="text/javascript" charset="utf-8" src="childbrowser.js"></script>
+
+
+
+
+
+
+
+        <script type="text/javascript">
+
+
+
+
+
+
+
+	                        
+
+
+
+
+
+
+
+            $(document).ready(function() {
+
+
+
+
+
+
+
+                document.addEventListener("deviceready",onDeviceReadyChildBrowser,false);
+
+
+
+
+
+
+
+            });
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+            function onDeviceReadyChildBrowser() {
+
+
+
+
+
+
+
+                $(document).ready(function() {
+
+
+
+
+
+
+
+                    $("a.open-child-browser").click(function() {
+
+
+
+
+
+
+
+                        var goUrl = $(this).attr("data-gourl");
+
+
+
+
+
+
+
+                        window.plugins.childBrowser.showWebPage(goUrl, { showLocationBar: true });
+
+
+
+
+
+
+
+                        return false;
+
+
+
+
+
+
+
+                    });
+
+
+
+
+
+
+
+                        
+
+
+
+
+
+
+
+                    $("a.open-external-browser").click(function() {
+
+
+
+
+
+
+
+                        var goUrl = $(this).attr("data-gourl");
+
+
+
+
+
+
+
+                        window.plugins.childBrowser.openExternal(goUrl);
+
+
+
+
+
+
+
+                        return false;
+
+
+
+
+
+
+
+                    });
+
+
+
+
+
+
+
+                });
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+                        
+
+
+
+
+
+
+
+        </script>
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+        <script type="text/javascript" src="PushNotification.js"></script>
+
+<script type="text/javascript">
+
+    var pushNotification;
+
+    var app_id = "38";
+
+    var message;
+
+            
+
+    function onDeviceReady() {
+
+                
+
+        pushNotification = window.plugins.pushNotification;
+
+				
+
+        if (device.platform == 'android' || device.platform == 'Android') {
+
+            pushNotification.register(successHandler, errorHandler, {"senderID":"804214045278","ecb":"onNotificationGCM"});
+
+        } else {
+
+            pushNotification.register(tokenHandler, errorHandler, {"badge":"true","sound":"true","alert":"true","ecb":"onNotificationAPN"});
+
+        }
+
+    }
+
+            
+
+    /* handle APNS notifications for iOS*/
+
+    function onNotificationAPN(event) {
+
+        if (event.alert) {
+
+            navigator.notification.alert(event.alert);
+
+        }
+
+                
+
+        if (event.sound) {
+
+            var snd = new Media(event.sound);
+
+            snd.play();
+
+        }
+
+                
+
+        if (event.badge) {
+
+            pushNotification.setApplicationIconBadgeNumber(successHandler, event.badge);
+
+        }
+
+    }
+
+            
+
+            
+
+    function onNotificationGCM(e) {
+
+        if(e.event == 'message'){
+
+            if(e.payload.app_id == app_id)
+
+                alert(e.message);
+
+        }
+
+    }
+
+            
+
+    function tokenHandler (result) {
+
+        /*$("#app-status-ul").append('<li>token: '+ result +'</li>');*/
+
+        /* Your iOS push server needs to know the token before it can push to this device*/
+
+        /* here is where you might want to send it the token for later use.*/
+
+    }
+
+			
+
+    function successHandler (result) {
+
+        /*$("#app-status-ul").append('<li>success:'+ result +'</li>');*/
+
+    }
+
+            
+
+    function errorHandler (error) {
+
+        /*alert("function_errorHandler");*/
+
+        /*$("#app-status-ul").append('<li>error:'+ error +'</li>');*/
+
+    }
+
+            
+
+    document.addEventListener('deviceready', onDeviceReady, true);
+
+
+
+</script>
+
+
+
+    </head>
+
+
+
+
+
+
+
+    <body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div data-role="page" data-add-back-btn="true">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div data-role="header">
+
+
+
+
+
+
+
+                <div class="ui-bar ui-bar-a"><center><h1>Choices</h1></center>
+
+
+
+                </div>
+
+
+
+
+
+
+
+            </div>
+
+
+
+            <a id="homeButton" href="index.html" rel="external" ><img src="./home.png" alt="Home" /></a>
+
+
+
+            <style type="text/css"> 
+
+
+
+                #homeButton{position: relative;top: -28px;left: 5px;width: 75px;height: 18px;display: block;text-align: center;}
+
+
+
+                #homeButton:active{ opacity: 0.7; } 
+
+
+
+            </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div data-role="content">
+
+
+
+
+
+
+
+                
+
+
+
+
+
+                <style type="text/css">
+
+                    .content_navigation_content div,.content_navigation_content p,.content_navigation_content ul,.content_navigation_content h2,.content_navigation_content h3,.content_navigation_content h4,.content_navigation_content img{
+
+                        padding:0px; 
+
+                        margin:0px;
+
+                    }
+
+                    .content_navigation_link h3 a{
+
+                        text-decoration:none;
+
+                    }
+
+                    .content_navigation_link{
+
+                        width: 100%;
+
+                        text-align: center;
+
+                        line-height: 50px;
+
+                        display: block;
+
+                        height: 50px;
+
+                        border-bottom: 1px solid white;
+
+                    }
+
+                    #content_navigation_content{
+
+                        /*                        overflow: hidden;
+
+                                                width: 200px;*/
+
+                        background: grey;
+
+                        margin: 0 auto;
+
+                        border-radius: 10px;
+
+                        /*                        position: fixed;
+
+                                                left: 50%;
+
+                                                top: 40px;*/
+
+                        /*margin-left: -100px;*/
+
+                        border-radius: 10px; 
+
+                        box-shadow: 8px 8px 8px silver;
+
+                    }
+
+                    .content_navigation_link a{
+
+                        color:white !important;
+
+                        display:block;
+
+                    }
+
+                    .content_navigation_link:hover, .content_navigation_link:active{
+
+                        background: #27a1c5;
+
+                        cursor:pointer;
+
+                    }
+
+                    .active{
+
+                        background: #27a1c5;
+
+                        cursor:pointer;
+
+                    }
+
+                    .content_block{
+
+                        word-wrap: break-word;
+
+                        display: none;
+
+                    }
+
+                    #navigationContent{
+
+                        /*position: relative;*/
+
+                    }
+
+                    .content_navigation_link:first-child{
+
+                        border-radius: 10px 10px 0px 0px; 
+
+                    }
+
+                    .content_navigation_link:last-child{
+
+                        border-radius: 0px 0px 10px 10px; 
+
+                    }
+
+                    .content_navigation_link .active{
+
+                        background: none;
+
+                    }
+
+                    #backMenu{
+
+                        position: fixed;
+
+                        bottom: 75px;
+
+                        right: 10px; 
+
+                        opacity: 0.5;
+
+                        display: none;
+
+                    }
+
+                    #backMenu:hover,#backMenu:active{
+
+                        opacity: 1;
+
+                        cursor: pointer;
+
+                    }
+
+                </style>
+
+                <div id="navigationContent">
+
+                    <div id="content_navigation_content" class="content_navigation_content">
+
+                        <div class="content_navigation_link">
+
+                            <h3><a href="#article1" class="ui-link">Exotic Choices</a></h3>
+
+                        </div>
+
+                        <div class="content_navigation_link">
+
+                            <h3><a href="#article2" class="ui-link">Fruit Trees as Bonsai</a></h3>
+
+                        </div>
+
+                        <div class="content_navigation_link">
+
+                            <h3><a href="#article3" class="ui-link">Blue Junipers</a></h3>
+
+                        </div>
+
+                        <div class="content_navigation_link">
+
+                            <h3><a href="#article4" class="ui-link">Maple</a></h3>
+
+                        </div>
+
+                        <div class="content_navigation_link">
+
+                            <h3><a href="#article5" class="ui-link">White Pine</a></h3>
+
+                        </div>
+
+                    </div>
+
+                    <div id="content_blocks">
+
+                        <div class="content_block" id="article1"><p>Most bonsai trees are a coniferous or deciduous species, with the occasional fruit tree forming part of the collection. But there are more exotic choices that allow the bonsai artist to expand his or her skills.</p>
+
+
+
+<p>Wisteria makes one excellent alternative to the run-of-the-mill bonsai. A native of China, Korea and Japan, they can reach 30 feet in the wild. Forming them into a bonsai is an interesting challenge, since they don't conform to any of the usual styles.</p>
+
+
+
+<p>The flowers, assuming a variety of colors - blue, purple, pink, white - are both beautiful and aromatic. They blossom in the spring when they need lots of water, so long as there is adequate drainage. Wisteria do well in full sun to partial shade. Provide ample fertilizer in spring just before they flower, then again in late summer while the leaves are still present.</p>
+
+
+
+<p>Orange Jasmine is another option that will provide both beauty to the eye and delight to the nose. Their fragrant, white blossoms are accompanied by bright red fruit.</p>
+
+
+
+<p>Orange Jasmine should be fed every three to four weeks beginning in early spring and continuing through mid-autumn. Light watering is adequate for most of the year, with slightly more in the hotter season.</p>
+
+
+
+<p>Since they do better in filtered sun and moderate shade, they are one of the few bonsai that can, and probably should, be raised indoors.</p>
+
+
+
+<p>Mimosa, or silk trees as they are sometimes called owing to their long silky filaments, are as fragrant as either of the two choices above. Their lacy foliage and puffy flowers are also just as lovely.</p>
+
+
+
+<p>Flowers bloom in late April to early July, during which time they should be given moderate water. Avoid watering the flowers since, like many flowering plants, they wilt rapidly and deteriorate when wet.</p>
+
+
+
+<p>The Mimosa will be one of the larger bonsai in your collection. They grow rapidly, have large leaves and are very difficult to sustain at a very small size. So give them lots of room on the display bench.</p>
+
+
+
+<p>The Desert Rose is another non-traditional bonsai that can turn an ordinary collection into one full of color and excitement. This native of East Africa can grow up to 10 feet in the wild and produce large, pink, trumpet-bowl flowers.</p>
+
+
+
+<p>Very bushy, it makes an excellent design complement to the many trees in a standard bonsai set. They need lots of fresh air and ample sunshine, so keep them outside most of the year.&nbsp;</p>
+
+
+
+<p>They're sensitive to cold, though, so in cold climates they should be brought indoors. They don't thrive below 50F (10C), though will lie dormant and healthy from 50-60F (10C-15C). During this period they will need very little water.</p>
+
+
+
+<p>Expand your design horizons by trying your hand at a few of these fragrant and beautiful flowering plants. Spaced among some of the standard evergreens - pines, firs and others - they provide a nice contrast. You'll also have an ever-changing display, as they blossom in spring and lose their leaves in the fall.</p>
+
+</div>
+
+                        <div class="content_block" id="article2"><p>While conifers and some deciduous trees make up the majority of bonsai, there are several fruit tree species that make delightful samples. These species are not dwarf varieties but, like other bonsai trees, carefully crafted miniatures of the standard tree.</p>
+
+
+
+<p>Apple, lemon, peach, cherry and several other fruit tree species make excellent bonsai. As with the full-sized tree, it's important to select the species suited to the climate in which the tree will grow.</p>
+
+
+
+<p>Citrus trees don't thrive in Northern Idaho, but apple trees do extremely well. The cold winters and hot summers produce abundant, well-formed fruit when autumn arrives. Cherry trees will do well in parts of the Mid-West and the South where there's lots of moisture in spring and fall and long, cold winters. Lemon and peach flourish in dry, sunny California.</p>
+
+
+
+<p>Chinese Sweet Plum make excellent bonsai. With pink and white flowers and purple fruit they brighten up any collection. Though most bonsai are outdoor plants, these will do well indoors provided they have adequate sunshine. Give them full morning sun, with shade in the afternoon and evening.</p>
+
+
+
+<p>Quince is among the more exotic choices for a bonsai, but with proper care they can make a wonderful sample. They produce tiny flowers with yellow fruit. Similar to pears, they can tolerate full sun, but should have at least partial shade in hot summer periods.</p>
+
+
+
+<p>Even grape vines can be made into a miniature bonsai-like plant, though they don't grow in the same form as trees. They enjoy very hot weather, thrive in dry, sandy soil and produce fruit clusters and leaves just like the full-sized style. Beware, though, grape vines and the fruit can grow quickly and you must take care not to have them overwhelm the pot.</p>
+
+
+
+<p>While you're thinking of vines, consider a black olive tree. In the wild these evergreens can grow to 50 feet with a full oval crown. But they can be easily encouraged to spread out, making for a beautiful display. Their bluish leaves can lend a dark color contrast to some of the brighter fruit trees in your collection.</p>
+
+
+
+<p>Figs are one of the more popular choices for a bonsai fruit tree. The tree, often known as ficus, can grow to enormous proportions - 60 feet high and 60 feet wide in some instances. This makes shaping them into bonsai a wonderful challenge. Keeping the canopy under control requires much dedication.</p>
+
+
+
+<p>Of course, the humble cherry tree continues to make one of the best choices for a bonsai. Their lovely and abundant pink flowers and red fruit are a delight to the eye and nose. They do well in full sun much of the year, but will need a partially shaded area during the hot weeks of summer.</p>
+
+
+
+<p>Cherry trees will take as much water as they're given, though less is required in winter. As with any bonsai, good drainage is important to prevent root rot. Avoid watering the flowers.</p>
+
+
+
+<p>Many fruit trees are sold very young, some no more than a root and small trunk. Like any bonsai, you'll want to get them into water immediately, then plant the next day. Prune, soak, then place in the container with the usual bonsai soil mixture.</p>
+
+</div>
+
+                        <div class="content_block" id="article3"><p>Junipers are, along with pine, another of the common species sought by beginning bonsai enthusiasts. And for good reason: it's a beautiful species that tolerates a wide variety of conditions well.</p>
+
+
+
+<p>Junipers make an especially good species for the kengai (cascade) style in which the trunk and branches grow out over the pot and below the horizontal surface.</p>
+
+
+
+<p>Junipers enjoy full sun and tolerate moderately dry soil conditions. Soil shouldn't be allowed to dry out completely, however. Copious amounts of water are fine, provided there is adequate drainage.</p>
+
+
+
+<p>Feeding should be carried out every three to four weeks from early spring to autumn. Opinions vary, with some preferring organic fertilizers but this seems to be as much an ideology as a view based on good botanical science.</p>
+
+
+
+<p>Man-made chemical fertilizers can be harsh, though, and should be used with care to ensure the proper proportions. Half-strength of 20-20-20 NPK (Nitrogen - N, Phosphorus - P, Potassium - K) is common. Avoid applying during the hot months or within a few weeks after repotting.</p>
+
+
+
+<p>Repotting is a good time to trim roots, but gradual reduction is best. Cut off no more than 1/3. Trees younger than 10 years old should be repotted every two years, older ones every three to four.</p>
+
+
+
+<p>Soil mixture is commonly 60% soil, 10% peat and 30% coarse sand, but there are many variations on the relative amounts and material. Loam, leaf mold and sand in equal proportions is a viable alternative.</p>
+
+
+
+<p>Repotting is also a good time to carry out pruning of unwanted branches. Wiring is best done in late autumn, however, after the major growing season has tapered off. If carried out during active growing season results will come quicker, but careful observation is needed to avoid scarring.</p>
+
+
+
+<p>Many bonsai artists use pinching to remove the new shoots that occur during the active growing season. Just take the new growth between thumb and forefinger and give a sharp twist to remove. Take care not to move or bend the tree or branch. The procedure should be carried out frequently during the growing season to control the growth of new foliage.</p>
+
+
+
+<p>Red spider mites are a common pest of this species. Look for yellowing foliage. Check under the branch for small spots. To double-check, hold a white sheet of paper or a tissue underneath. Sharply tap a branch without too much force. This should dislodge a few if they're present. If they move, you know you have something you don't want on your tree.</p>
+
+
+
+<p>A home recipe of nicotine solution can be prepared by soaking tobacco in water overnight, but a commercial insecticidal solution will be more effective.</p>
+
+
+
+<p>After the insecticide has operated for a day, spray the foliage with water daily during the growing season and allow to dry in full, but early sun. Full sun should be avoided for a few weeks right after repotting.</p>
+
+</div>
+
+                        <div class="content_block" id="article4"><p>Maples come in a variety of sub-species, but all of them make beautiful bonsai trees. Slightly more difficult to care for, they are nonetheless greatly in demand by bonsai enthusiasts. Their leafy appearance is attractive, particularly in the fall when they turn to yellow and red, just as do the full-sized maples.</p>
+
+
+
+<p>Some varieties thrive well as indoor plants, but for the most part bonsai trees are outdoor plants. Opinions vary about how much sun they require, but partial sun/partial shade is a safe bet with most types.</p>
+
+
+
+<p>They survive winter well in the wild, but in bonsai form they require some care. Less water in the winter is called for and care should be taken that the roots don't get any frost.</p>
+
+
+
+<p>Copious watering in the summer is warranted, provided - as with any bonsai tree - there is good drainage. A little extra moisture isn't a bad thing, though, especially for the flowering varieties. Maples like moist soil.</p>
+
+
+
+<p>They adapt well to various styles, but the informal upright (shakan) may be best, given their leafy nature and somewhat brittle branches. It is possible to train them into the han-kengai (semi-cascade) and others, but extreme care must be taken to avoid splitting the trunk and branches.</p>
+
+
+
+<p>Han-kengai can be achieved without wiring by a cord attached to a stake in order to curve the trunk. However, this form doesn't typically occur in nature. Since traditional bonsai art aims at emulating nature on a small scale, this form is uncommon.</p>
+
+
+
+<p>Feeding once per month is fine, with a slow-release fertilizer from spring to autumn. Taper off during hot summer months, though. An organic type works well, but Peter's 20-20-20 is also a good mix. Hold off any feeding for a few weeks after repotting.</p>
+
+
+
+<p>Since they can produce ample branches and leaves, root systems tend to grow accordingly to support them. Pruning, therefore, should be taken as a concerted project. For fewer branches and leaves, roots can be pruned more aggressively.</p>
+
+
+
+<p>Branch pruning is best carried out in fall or winter when there are fewer or no leaves. This gives a clearly visible working area, leading to fewer mishaps. Maples heal better if pruning paste is used to seal the wound after branch removal.</p>
+
+
+
+<p>Pinch back new growth during the active growing season to keep foliage to a moderate level. Remember you are creating a bonsai, where the goal is somewhat minimalist. A fully leaved tree looks more like an ordinary houseplant.</p>
+
+
+
+<p>Wiring is less common with maples for a variety of reasons beyond the somewhat brittle branches. They acquire pleasing shapes with leaf and branch pruning without extra effort and they scar easily.</p>
+
+
+
+<p>Like most bonsai trees, repotting every two years is a good practice. When replanting a mixture of 60% soil, 20% peat and 20% coarse sand will provide the correct drainage environment. This is best done in early spring, before buds have started.</p>
+
+</div>
+
+                        <div class="content_block" id="article5"><p>Though no bonsai is easy to train or care for, pine is among the easier species. More tolerant to drying, they adapt well to a pot and often require only regular trimming and biannual repotting.</p>
+
+
+
+<p>In the wild, pine commonly grow to 50 feet or more with trunks that are a foot in diameter and larger. Yet they make excellent bonsai trees and look stellar in miniature form. Because of their naturally straight trunks and symmetrical branch arrangements they are well suited to the formal upright (chokkan) style.</p>
+
+
+
+<p>In the chokkan style, the trunk is straight and rises vertically from the base, in contrast to the cascade (kengai) that is both curved and grows horizontally across the surface. The chokkan thus makes a good starter species for budding bonsai artists.</p>
+
+
+
+<p>Bonsai trees are not a dwarf variety, but a full-sized species that has been carefully trained to emulate conditions in the wild on a very small scale. White pine bonsai, therefore, will have the same characteristics as the full grown variety.</p>
+
+
+
+<p>White pine have blue-green needles that form in bunches of five, growing from a small bud. Branches grow in a circular pattern, looking down at the tree from above, with several levels around the tree at intervals up the trunk.</p>
+
+
+
+<p>A healthy tree looks healthy, especially in the spring when new growth appears. Needles will be a brighter green and start lengthening. Full-sized pines can add two feet or more to their height during the season. You'll want to remove or reduce some of the new shoots during this period every year or two.</p>
+
+
+
+<p>Repotting can be carried out during spring but can wait as late as early autumn, after the summer heat has cooled.</p>
+
+
+
+<p>During repotting ensure there is good drainage when you're done. Pines tolerate dryer soil much better than over-watering. A mixture of 50% soil, 10% peat and 40% coarse sand works well for many, but there are many variations on the material and relative amounts.</p>
+
+
+
+<p>Repotting is a good time for root trimming, but be conservative. Pines need a deep pot in order to grow a deep root system for stability. No more than 1/3 of the root should be cut off during the procedure.</p>
+
+
+
+<p>Branch pruning is best carried out during late autumn.&nbsp;</p>
+
+
+
+<p>It's common for some of the needles to become brown and fall off in the summer. This needn't be cause for concern unless the tree is diseased.</p>
+
+
+
+<p>Check for large hemispheres of very dark growth on the branch that can indicate the presence of a tumor. If there are none, and only a small percentage of the needles are brown, the condition may well be normal.</p>
+
+
+
+<p>Aphids and mealy bugs are common pests, but easily controlled by a commercial or home-grown mixture. Often a slight misting with a dilute liquid dishwashing detergent will take care of the problem temporarily. The needles should be misted with plain water the day after.</p>
+
+
+
+<p>Pines can be watered daily provided there is very good drainage, but every other day is fine. Feeding should be done every two to four weeks from early to late spring and again at the end of summer to early autumn. This coincides with the pine's active growing seasons.</p>
+
+</div>
+
+                    </div>
+
+                    <img id="backMenu" src="./backMenu.png">
+
+                </div>
+
+                
+
+            <script type="text/javascript" >
+
+                    $(document).ready(function() {
+
+
+
+//                        $(document).click(function ( e ) {
+
+//                            if ($(e.target).parents().filter('#content_navigation_content').length < 1 && $(e.target).attr('id') != 'content_navigation_content' && $(e.target).attr('id') != 'backMenu') {
+
+//                                $('#content_navigation_content').fadeOut(500);
+
+//                                $('#backMenu').fadeIn(500);
+
+//                            }
+
+//                        });
+
+//                        
+
+
+
+
+
+                        var articleNumber;
+
+
+
+
+
+                        $('.backClick').click(function() {
+
+                            $('#content_navigation_content').show();
+
+                            $('#article' + articleNumber).hide();
+
+                        });
+
+
+
+
+
+
+
+
+
+                        $('.content_navigation_link h3 a').click(function() {
+
+
+
+                            $('#content_navigation_content').hide();
+
+                            articleNumber = $(this).attr('href').substr(-1);
+
+                            $('.content_navigation_link').removeClass('active');
+
+                            $(this).parent().parent().addClass('active');
+
+                            $('#article' + articleNumber).show();
+
+
+
+
+
+
+
+
+
+//                            articleNumber = $(this).attr('href').substr(-1);
+
+//                            $('.content_navigation_link').removeClass('active');
+
+//                            $(this).parent().parent().addClass('active');
+
+//                            $('.content_block').slideUp(500);
+
+//                            setTimeout(function() {
+
+//                                $('#content_navigation_content').fadeOut(500);
+
+//                                $('#backMenu').fadeIn(500);
+
+//                                $('#article'+articleNumber).slideDown(500);
+
+//                            }, 500);
+
+
+
+                        });
+
+
+
+
+
+
+
+//                        $('#backMenu').click(function(){
+
+//                            $('#content_navigation_content').fadeIn(500);
+
+//                            $('#backMenu').fadeOut(500);
+
+//                        });
+
+
+
+                    });
+
+                </script>
+
+
+
+
+
+
+
+            </div><!-- /content -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <style> .nav-glyphish-example .ui-btn .ui-btn-inner { padding-top: 40px !important; width: 60px!important;}		.nav-glyphish-example .ui-btn .ui-icon { width: 30px!important; height: 30px!important; margin-left: -15px !important; box-shadow: none!important; -moz-box-shadow: none!important; -webkit-box-shadow: none!important; -webkit-border-radius: 0 !important; border-radius: 0 !important; }#tab1 .ui-icon { background:  url("icons_tech_1579.png") 50% 50% no-repeat; background-size: 50px 50px; }#tab2 .ui-icon { background:  url("icons_communication_1092.png") 50% 50% no-repeat; background-size: 50px 50px; }  a[href="notification.html"] .ui-icon { background:  url("icon(18).png") 50% 50% no-repeat !important;background-size: 30px 30px !important; }   a[href="optin_form.html"] .ui-icon { background:  url("icon(6).png") 50% 50% no-repeat !important;background-size: 30px 30px !important; }   a[href="content3.html"] .ui-icon { background:  url("icon(15).png") 50% 50% no-repeat !important;background-size: 30px 30px !important; }   a[href="content2.html"] .ui-icon { background:  url("icon(15).png") 50% 50% no-repeat !important;background-size: 30px 30px !important; }   a[href="content.html"] .ui-icon { background:  url("icon(15).png") 50% 50% no-repeat !important;background-size: 30px 30px !important; } #tab3 .ui-icon { background:  url("64Px_-_504-11.png") 50% 50% no-repeat; background-size: 30px 30px; }#tab4 .ui-icon { background:  url("64Px_-_504-210.png") 50% 50% no-repeat; background-size: 30px 30px; }#tab5 .ui-icon { background:  url("more.png") 50% 50% no-repeat; background-size: 30px 30px; } .ui-content{ word-wrap: break-word; } </style>
+
+
+
+
+
+
+
+            <div data-role="footer" data-position="fixed" class="nav-glyphish-example" data-id="myfooter" data-theme="a" data-tap-toggle="false"><div data-role="navbar" class="nav-glyphish-example"><ul><li><a href="content.html" id="tab2" data-icon="custom" rel="external"  data-gourl="content.html" class="" onclick="window.plugins.childbrowser.openExternal('content.html')">Basics</a></li><li><a href="content2.html" id="tab2" data-icon="custom" rel="external"  data-gourl="content2.html" class="" onclick="window.plugins.childbrowser.openExternal('content2.html')">Choices</a></li><li><a href="content3.html" id="tab2" data-icon="custom" rel="external"  data-gourl="content3.html" class="" onclick="window.plugins.childbrowser.openExternal('content3.html')">Growing</a></li><li><a href="optin_form.html" id="tab2" data-icon="custom" rel="external"  data-gourl="optin_form.html" class="" onclick="window.plugins.childbrowser.openExternal('optin_form.html')">Bonsai Club</a></li><li><a href="more.html" id="tab5" data-icon="custom" rel="external">More</a></li></ul></div></div>
+
+
+
+
+
+
+
+        </div>	
+
+
+
+
+
+
+
+    </body>
+
+
+
+
+
+
+
+</html>
